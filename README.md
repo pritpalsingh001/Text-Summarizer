@@ -5,7 +5,9 @@ The extractive text summarization technique involves pulling keyphrases from the
 
 
 CODE:
+
 #importing the libraries required 
+
 import nltk
 import heapq  
 import bs4 as bs  
@@ -18,7 +20,9 @@ from tkinter import *
 from pygame import mixer
 
 #function to show the summary of the text/article 
+
 def display(summary):
+    
     #creating object of tkinter.tk() class for the window that can be shown to the user
     summary_window = Tk()  
     #giving title to window
@@ -41,6 +45,7 @@ def display(summary):
 #function to make the voice assistant read out the summary 
 
 def audio_function(summary):
+    
     text_to_speak = summary
     #defining the language 
     language = 'en'
@@ -59,10 +64,12 @@ def audio_function(summary):
 def stop():
     mixer.music.stop()
 
+
 #function to create the summary of the article present in the provided URL
 
 def summarization(source):
-     #opening the source/URL  passed to the function as a parameter
+    
+    #opening the source/URL  passed to the function as a parameter
     data = urllib.request.urlopen(source)  
     article_from_web = data.read()
     #scrapping the data using bs4 
@@ -135,6 +142,8 @@ def fetch_input():
     summarization(source)
 
 #main window making that will be displayed at first 
+
+
 root = Tk()
 root.title('Enter URL for summary')
 source_field = Text(root, height=1, width=50)
