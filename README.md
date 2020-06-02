@@ -1,6 +1,9 @@
 # Text-Summarizer
 Text summarization refers to the technique of shortening long pieces of text. The intention is to create a coherent and fluent summary having only the main points outlined in the document.
-The extractive text summarization technique involves pulling keyphrases from the source document and combining them to make a summary. The extraction is made according to the defined metric without making any changes to the texts
+The extractive text summarization technique involves pulling keyphrases from the source document and combining them to make a summary. The extraction is made according to the defined metric without making any changes to the texts.
+
+
+
 CODE:
 #importing the libraries required 
 import nltk
@@ -36,6 +39,7 @@ def display(summary):
 
 
 #function to make the voice assistant read out the summary 
+
 def audio_function(summary):
     text_to_speak = summary
     #defining the language 
@@ -51,10 +55,12 @@ def audio_function(summary):
     mixer.music.play()
 
 #function to make the voice assistant stop from reading out the summary 
+
 def stop():
     mixer.music.stop()
 
 #function to create the summary of the article present in the provided URL
+
 def summarization(source):
      #opening the source/URL  passed to the function as a parameter
     data = urllib.request.urlopen(source)  
@@ -64,6 +70,7 @@ def summarization(source):
     #fetching all p tags in the scrapped data
     paragraphs = parsed_article.find_all('p')
     article_text = ""
+    
     #now from each p tag fetching the text present in it 
     for p in paragraphs:  
         article_text += p.text
@@ -71,11 +78,14 @@ def summarization(source):
     # Removing Square Brackets, numbers inside the square brackets and Extra Spaces
     article_text = re.sub(r'\[[0-9]*\]', ' ', article_text)  
     article_text = re.sub(r'\s+', ' ', article_text)  
+    
     ## Removing any kind of text other than alphabets and again removing extra spaces
     formatted_article_text = re.sub('[^a-zA-Z]', ' ', article_text )  
     formatted_article_text = re.sub(r'\s+', ' ', formatted_article_text)  
+    
     #making the list of sentences 
     sentences = nltk.sent_tokenize(article_text) 
+    
     #making a list of stopwords(a,an ,the it, between,etc.)
     stopwords = nltk.corpus.stopwords.words('english')
     
@@ -87,8 +97,10 @@ def summarization(source):
                 word_freq[word] = 1
             else:
                 word_freq[word] += 1
+    
     #getting maximum frequency            
     max_freq = max(word_freq.values())
+    
     #normalising the frequencies
     for word in word_freq.keys():  
         word_freq[word] = (word_freq[word]/max_freq)
@@ -104,18 +116,24 @@ def summarization(source):
                     else:
                         sentence_scores[sent] += word_freq[word]
    
+    
     #picking top 8 sentences for summary                      
     summary_sentences = heapq.nlargest(8, sentence_scores, key=sentence_scores.get)
+    
     #joining different sentences
     summary = ' '.join(summary_sentences)
+    
     #calling display and audio functions  
     display(summary)
     audio_function(summary)
+
+
 #function to fetch the URL from tkinter window and calling summarization() function 
 def fetch_input():
     global source 
     source = source_field.get("1.0","end-1c")
     summarization(source)
+
 #main window making that will be displayed at first 
 root = Tk()
 root.title('Enter URL for summary')
